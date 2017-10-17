@@ -3,15 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    tools:context=".StatusActivity">
+    android:background="@drawable/bird"
+    tools:context=".StatusActivity"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="@string/title_status"
+        android:textColor="@android:color/white"
         android:textSize="30sp" />
 
     <EditText
@@ -20,7 +23,17 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:gravity="top|center_horizontal"
-        android:hint="@string/hint_status" />
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:hint="@string/hint_status"
+        />
+    <TextView
+        android:layout_width="41dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:id="@+id/textCount"
+        android:text=""
+        android:layout_marginRight="10dp" />
 
     <Button
         android:id="@+id/buttonTweet"
