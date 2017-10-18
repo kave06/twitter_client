@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Yamba_MoonWalker.iml" filepath="$PROJECT_DIR$/Yamba_MoonWalker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter_client.iml" filepath="$PROJECT_DIR$/twitter_client.iml" />
     </modules>
   </component>
 </project>
