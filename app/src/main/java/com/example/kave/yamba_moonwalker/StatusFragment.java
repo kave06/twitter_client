@@ -1,5 +1,6 @@
 package com.example.kave.yamba_moonwalker;
 
+import android.widget.ProgressBar;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -25,16 +26,20 @@ public class StatusFragment extends Fragment implements View.OnClickListener, Te
 
 
     private static final String TAG = "StatusActivity";
+    private ProgressBar prg;
     EditText editStatus;
     Button buttonTweet;
     Twitter twitter;
     TextView textCount;
+    String mensajeToast;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); //TODO QUITAR??
         View view = inflater.inflate(R.layout.fragment_status, container, false);
+
+        prg = (ProgressBar)view.findViewById(R.id.progressBar_cyclic);
+        prg.setVisibility(View.GONE);
 
         // Enlazar views
         editStatus = (EditText) view.findViewById(R.id.editStatus);
@@ -47,11 +52,14 @@ public class StatusFragment extends Fragment implements View.OnClickListener, Te
         editStatus.addTextChangedListener(this);
 
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey("Y5mK9TEpRBcNm9OxSWa3Axytr")
-                .setOAuthConsumerSecret("SfUYSAX55wp8VVhuTrFtHqVKckld6at25ULlAEJkDIJZjDbnkg")
-                .setOAuthAccessToken("151864405-IsHlUecXE9MNZZRxrnxcDhSdxlAVlMY8G9Fh4XiS")
-                .setOAuthAccessTokenSecret("\tHj8FWziaVfARqt1Gm16BLcl3zV9k9kl7ILbe3h8uLybfF");
-        TwitterFactory factory = new TwitterFactory(builder.build());
+        builder.setOAuthConsumerKey("zTBBdWM6NXRiIYAyuDbAUDKHF")
+                .setOAuthConsumerSecret("ua40LRpcIWsAP9Iw1rN3ZXFxwYxPpkKROgpmojSm9unWN1CKhf")
+                .setOAuthAccessToken("1172481186-kEx3lOCT5I1zT3R7iIBDigUC0VwKXc0i4bvZGpE")
+                .setOAuthAccessTokenSecret("msc0imLZwmWq89toNoyouRmwn9CqZ3jWE5AXZUJrE3thw");
+
+            TwitterFactory factory = new TwitterFactory(builder.build());
+            Log.e(TAG, "Fallo en la conexión con la cuenta, probablemente por el token");
+
         twitter = factory.getInstance();
 
         return view;
@@ -60,6 +68,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener, Te
     // Función llamada al pulsar el botón
     public void onClick(View v) {
         String status = editStatus.getText().toString();
+        prg.setVisibility(View.VISIBLE);
         Log.d(TAG, "onClicked");
 
         /*
@@ -98,11 +107,13 @@ public class StatusFragment extends Fragment implements View.OnClickListener, Te
         protected String doInBackground(String... params) {
             try{
                 twitter.updateStatus(params[0]);
+                mensajeToast="Tweet enviado correctamente";
                 return "Tweet enviado correctamente";
             }catch (TwitterException e) {
                 Log.e(TAG, "Fallo en el envío");
                 e.printStackTrace();
-                return "Fallo en el envío del tweet";
+                mensajeToast = "Fallo en el envío del tweet: " + e.getErrorMessage();
+                return "Fallo en el envío del tweet: " + e.getErrorMessage();
             }
         }
         // Llamada cuando la acitvidad en background ha terminado
@@ -110,8 +121,8 @@ public class StatusFragment extends Fragment implements View.OnClickListener, Te
         protected void onPostExecute(String result) {
             // Acción al completar la actualización del estado
             super.onPostExecute(result);
-
-            Toast.makeText(StatusFragment.this.getActivity(), "Tweet enviado satisfactoriamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(StatusFragment.this.getActivity(), mensajeToast, Toast.LENGTH_LONG).show();
+            prg.setVisibility(View.GONE);
         }
 
     }
